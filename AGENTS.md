@@ -2,119 +2,72 @@
 
 ## Project Overview
 
-Automation project for saucedemo.com using Cypress with accessibility testing (axe-core) and Allure reporting. Uses pnpm (v10.28.1) as the package manager.
-
-## Package Manager
-
-Use **pnpm** for all package management commands.
+Automation project for saucedemo.com using Cypress with accessibility testing (axe-core) and Allure reporting. Uses pnpm (v10.28.1) as package manager.
 
 ## Commands
 
 ### Install Dependencies
-
 ```bash
 pnpm install
 ```
 
 ### Cypress Commands
-
 ```bash
-pnpm cypress:open           # Open Cypress Test Runner (interactive mode)
-pnpm cypress:run            # Run all tests in headless mode
+pnpm cypress:open            # Open Cypress Test Runner
+pnpm cypress:run            # Run all tests headless
 pnpm cypress:run:headed     # Run tests with browser visible
-pnpm cypress:run --spec "cypress/e2e/login.cy.ts"  # Run specific test file
-pnpm cypress:run --spec "cypress/e2e/**/*.cy.ts"   # Run tests matching glob pattern
 ```
 
 ### Running a Single Test
-
 ```bash
 pnpm cypress:run --spec "cypress/e2e/login.cy.ts"
-```
-
-Or use grep pattern:
-
-```bash
 pnpm cypress:run --spec "cypress/e2e/**/*.cy.ts" --grep "should login"
 ```
 
 ### Allure Reporting
-
 ```bash
-pnpm test:allure            # Run tests with Allure reporting enabled
-pnpm allure:generate        # Generate Allure report from results
-pnpm allure:open            # Open Allure report in browser
-```
-
-### Accessibility Tests
-
-```bash
-# Run accessibility tests (included in each test file)
-# Each test includes cy.checkA11y() for accessibility validation
+pnpm test:allure            # Run tests with Allure
+pnpm allure:generate        # Generate report
+pnpm allure:open            # Open report
 ```
 
 ### Linting & Formatting
-
 ```bash
 pnpm lint              # Run ESLint
-pnpm lint:fix         # Fix ESLint issues automatically
-pnpm format           # Format code with Prettier
-pnpm format:check     # Check code formatting
+pnpm lint:fix         # Fix issues automatically
+pnpm format           # Format with Prettier
+pnpm format:check     # Check formatting
 ```
-
-### Code Quality Rules
-
-- ESLint rules for Cypress best practices
-- Prettier for consistent formatting
-- TypeScript strict mode enabled
 
 ## Project Structure
 
 ```
 cypress/
-├── e2e/                    # Test files
-│   ├── login.cy.ts         # Login tests
-│   ├── inventory.cy.ts     # Inventory tests
-│   └── cart.cy.ts          # Cart tests
-├── fixtures/               # Test data
-│   └── data.ts             # Credentials and product data
+├── e2e/                    # Test files (*.cy.ts)
+├── fixtures/               # Test data (data.ts)
 ├── support/
-│   └── e2e.ts              # Cypress support config with custom commands
-└── cypress.config.ts       # Cypress configuration
+│   └── e2e.ts              # Custom commands
+└── cypress.config.ts       # Configuration
 ```
 
 ## Code Style Guidelines
 
 ### Cypress Tests
 
-#### Naming Conventions
+**Naming Conventions**
+- Files: `*.cy.ts`
+- Describe: PascalCase (e.g., `Login`)
+- It: lowercase starting with "should"
 
-- Test files: `*.cy.ts` or `*.cy.js`
-- Describe blocks: Feature name in PascalCase
-- It blocks: Should description in lowercase
-
-```typescript
-describe('Login', () => {
-  it('should login successfully with valid credentials', () => {
-    // test implementation
-  });
-});
-```
-
-#### Best Practices
-
-- Use custom commands for reusable actions (defined in `cypress/support/e2e.ts`)
-- Use data-test attributes when available
-- Use meaningful assertions
-- Include accessibility checks (cy.checkA11y)
+**Best Practices**
+- Use custom commands in `cypress/support/e2e.ts`
+- Use data-test attributes for selectors
+- Include accessibility checks with `cy.checkA11y()`
 - Use beforeEach for repeated setup
-- Use selectors directly in tests or create custom commands
 
 ```typescript
 describe('Login', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  });
+  beforeEach(() => cy.visit('/'));
 
   it('should login successfully', () => {
     cy.login('standard_user', 'secret_sauce');
@@ -123,31 +76,27 @@ describe('Login', () => {
 });
 ```
 
-#### Custom Commands
+### Custom Commands
 
-Define reusable commands in `cypress/support/e2e.ts`:
+Define in `cypress/support/e2e.ts`:
 
 ```typescript
 declare global {
   namespace Cypress {
     interface Chainable {
       login(username: string, password: string): Chainable<void>;
-      loginAsStandardUser(): Chainable<void>;
     }
   }
 }
 
-Cypress.Commands.add('login', (username: string, password: string) => {
+Cypress.Commands.add('login', (username, password) => {
   cy.get('[data-test="username"]').type(username);
   cy.get('[data-test="password"]').type(password);
   cy.get('[data-test="login-button"]').click();
 });
 ```
 
-#### Accessibility Testing
-
-- Run accessibility check: `cy.checkA11y()`
-- Can filter by tags: `cy.checkA11y(null, { includedImpacts: ['critical'] })`
+### Accessibility Testing
 
 ```typescript
 it('should have no accessibility violations', () => {
@@ -155,42 +104,36 @@ it('should have no accessibility violations', () => {
 });
 ```
 
-#### Allure Reporting
+### Allure Reporting
 
-- Use `cy.allure().label('severity', 'critical')` for labels
-- Use `cy.allure().description('test description')` for descriptions
-- Use `cy.allure().step('step name')` for steps
+```typescript
+cy.allure().label('severity', 'critical');
+cy.allure().description('test description');
+```
 
-### TypeScript/JavaScript
+### TypeScript
 
-#### Types
-
-- Use TypeScript for new code
-- Avoid `any` type; use `unknown` when type is unknown
+- Use TypeScript, avoid `any`
 - Use interfaces for object shapes
+- Variables/functions: camelCase
+- Types/Interfaces: PascalCase
+- Files: kebab-case
 
-#### Naming Conventions
+### Formatting
 
-- **Variables/functions**: camelCase
-- **Classes/Types/Interfaces**: PascalCase
-- **Constants**: SCREAMING_SNAKE_CASE
-- **Files**: kebab-case
-
-#### Formatting
-
-- 2 spaces for indentation
-- Use semicolons
-- Prefer single quotes for strings
+- 2 spaces indentation
+- Single quotes for strings
+- Semicolons required
+- Max line length: 100
 
 ## Git Conventions
 
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`
+- Conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`
 - Keep commits small and focused
-- Write meaningful commit messages
 
 ## Editor Configuration
 
-For VS Code, install "Cypress Snippets" extension and create `.vscode/settings.json`:
+VS Code - install "EditorConfig" and "Cypress Snippets" extensions:
 
 ```json
 {
