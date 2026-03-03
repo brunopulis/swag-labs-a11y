@@ -11,11 +11,13 @@ Use **pnpm** for all package management commands.
 ## Commands
 
 ### Install Dependencies
+
 ```bash
 pnpm install
 ```
 
 ### Cypress Commands
+
 ```bash
 pnpm cypress:open           # Open Cypress Test Runner (interactive mode)
 pnpm cypress:run            # Run all tests in headless mode
@@ -25,16 +27,19 @@ pnpm cypress:run --spec "cypress/e2e/**/*.cy.ts"   # Run tests matching glob pat
 ```
 
 ### Running a Single Test
+
 ```bash
 pnpm cypress:run --spec "cypress/e2e/login.cy.ts"
 ```
 
 Or use grep pattern:
+
 ```bash
 pnpm cypress:run --spec "cypress/e2e/**/*.cy.ts" --grep "should login"
 ```
 
 ### Allure Reporting
+
 ```bash
 pnpm test:allure            # Run tests with Allure reporting enabled
 pnpm allure:generate        # Generate Allure report from results
@@ -42,17 +47,26 @@ pnpm allure:open            # Open Allure report in browser
 ```
 
 ### Accessibility Tests
+
 ```bash
 # Run accessibility tests (included in each test file)
 # Each test includes cy.checkA11y() for accessibility validation
 ```
 
-### Linting
+### Linting & Formatting
+
 ```bash
-pnpm add -D eslint prettier
-pnpm eslint .
-pnpm prettier --write .
+pnpm lint              # Run ESLint
+pnpm lint:fix         # Fix ESLint issues automatically
+pnpm format           # Format code with Prettier
+pnpm format:check     # Check code formatting
 ```
+
+### Code Quality Rules
+
+- ESLint rules for Cypress best practices
+- Prettier for consistent formatting
+- TypeScript strict mode enabled
 
 ## Project Structure
 
@@ -74,6 +88,7 @@ cypress/
 ### Cypress Tests
 
 #### Naming Conventions
+
 - Test files: `*.cy.ts` or `*.cy.js`
 - Describe blocks: Feature name in PascalCase
 - It blocks: Should description in lowercase
@@ -87,6 +102,7 @@ describe('Login', () => {
 ```
 
 #### Best Practices
+
 - Use custom commands for reusable actions (defined in `cypress/support/e2e.ts`)
 - Use data-test attributes when available
 - Use meaningful assertions
@@ -108,6 +124,7 @@ describe('Login', () => {
 ```
 
 #### Custom Commands
+
 Define reusable commands in `cypress/support/e2e.ts`:
 
 ```typescript
@@ -128,6 +145,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 ```
 
 #### Accessibility Testing
+
 - Run accessibility check: `cy.checkA11y()`
 - Can filter by tags: `cy.checkA11y(null, { includedImpacts: ['critical'] })`
 
@@ -138,6 +156,7 @@ it('should have no accessibility violations', () => {
 ```
 
 #### Allure Reporting
+
 - Use `cy.allure().label('severity', 'critical')` for labels
 - Use `cy.allure().description('test description')` for descriptions
 - Use `cy.allure().step('step name')` for steps
@@ -145,17 +164,20 @@ it('should have no accessibility violations', () => {
 ### TypeScript/JavaScript
 
 #### Types
+
 - Use TypeScript for new code
 - Avoid `any` type; use `unknown` when type is unknown
 - Use interfaces for object shapes
 
 #### Naming Conventions
+
 - **Variables/functions**: camelCase
 - **Classes/Types/Interfaces**: PascalCase
 - **Constants**: SCREAMING_SNAKE_CASE
 - **Files**: kebab-case
 
 #### Formatting
+
 - 2 spaces for indentation
 - Use semicolons
 - Prefer single quotes for strings
@@ -169,6 +191,7 @@ it('should have no accessibility violations', () => {
 ## Editor Configuration
 
 For VS Code, install "Cypress Snippets" extension and create `.vscode/settings.json`:
+
 ```json
 {
   "editor.formatOnSave": true,

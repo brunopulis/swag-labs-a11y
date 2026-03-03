@@ -45,46 +45,48 @@ Cypress.Commands.add('injectAxe', () => {
 });
 
 Cypress.Commands.add('checkA11y', () => {
-  cy.window().then((win) => {
-    if (!win.axe) {
-      win.axe = axeCore;
-    }
-    return win.axe.run(win.document);
-  }).then((results) => {
-    if (results.violations.length > 0) {
-      const violations = results.violations as AxeViolation[];
-      
-      const detailedViolations = violations.map((v) => {
-        return {
-          bug: v.description,
-          successCriteria: v.help,
-          helpUrl: v.helpUrl,
-          impact: v.impact,
-          elements: v.nodes.map((n) => ({
-            selector: n.target.join(' > '),
-            html: n.html
-          }))
-        };
-      });
+  cy.window()
+    .then((win) => {
+      if (!win.axe) {
+        win.axe = axeCore;
+      }
+      return win.axe.run(win.document);
+    })
+    .then((results) => {
+      if (results.violations.length > 0) {
+        const violations = results.violations as AxeViolation[];
 
-      const violationsJson = JSON.stringify(detailedViolations, null, 2);
-      
-      cy.allure().attachment(
-        'Accessibility Violations',
-        violationsJson,
-        'application/json'
-      );
+        const detailedViolations = violations.map((v) => {
+          return {
+            bug: v.description,
+            successCriteria: v.help,
+            helpUrl: v.helpUrl,
+            impact: v.impact,
+            elements: v.nodes.map((n) => ({
+              selector: n.target.join(' > '),
+              html: n.html,
+            })),
+          };
+        });
 
-      const summary = violations.map((v) => {
-        const elements = v.nodes.map((n) => `  - ${n.target.join(' > ')}`).join('\n');
-        return `[${v.impact.toUpperCase()}] ${v.id}\n  Bug: ${v.description}\n  Success Criteria: ${v.help}\n  Elements:\n${elements}\n  Help: ${v.helpUrl}`;
-      }).join('\n\n');
-      
-      cy.allure().description(`Found ${results.violations.length} accessibility violations:\n\n${summary}`);
-      
-      throw new Error(`Found ${results.violations.length} accessibility violations`);
-    }
-  });
+        const violationsJson = JSON.stringify(detailedViolations, null, 2);
+
+        cy.allure().attachment('Accessibility Violations', violationsJson, 'application/json');
+
+        const summary = violations
+          .map((v) => {
+            const elements = v.nodes.map((n) => `  - ${n.target.join(' > ')}`).join('\n');
+            return `[${v.impact.toUpperCase()}] ${v.id}\n  Bug: ${v.description}\n  Success Criteria: ${v.help}\n  Elements:\n${elements}\n  Help: ${v.helpUrl}`;
+          })
+          .join('\n\n');
+
+        cy.allure().description(
+          `Found ${results.violations.length} accessibility violations:\n\n${summary}`
+        );
+
+        throw new Error(`Found ${results.violations.length} accessibility violations`);
+      }
+    });
 });
 
 Cypress.on('uncaught:exception', (err) => {

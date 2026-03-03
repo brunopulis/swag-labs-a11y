@@ -13,8 +13,4 @@ export const CREDENTIALS = {
   },
 };
 
-export const PRODUCTS = [
-  'Sauce Labs Backpack',
-  'Sauce Labs Bike Light',
-  'Sauce Labs Bolt T-Shirt',
-];
+export const PRODUCTS = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt'];

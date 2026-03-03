@@ -12,7 +12,11 @@
     "allure:generate": "allure generate",
     "allure:open": "allure open",
     "test:allure": "cypress run --env allure=true",
-    "test:accessibility": "cypress run --spec 'cypress/e2e/**/*accessibility*.cy.ts'"
+    "test:accessibility": "cypress run --spec 'cypress/e2e/**/*accessibility*.cy.ts'",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "cypress",
@@ -27,8 +31,14 @@
   "packageManager": "pnpm@10.28.1",
   "devDependencies": {
     "@shelex/cypress-allure-plugin": "^2.41.2",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
     "allure-commandline": "^2.37.0",
     "axe-core": "^4.11.1",
-    "cypress": "^15.11.0"
+    "cypress": "^15.11.0",
+    "eslint": "^10.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^6.1.0",
+    "prettier": "^3.8.1"
   }
 }

@@ -1,1 +1,39 @@
 node_modules/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Allure
+allure-results/
+allure-report/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Test results
+test-results/
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettierignore
