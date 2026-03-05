@@ -7,11 +7,13 @@ Automation project for saucedemo.com using Cypress with accessibility testing (a
 ## Commands
 
 ### Install Dependencies
+
 ```bash
 pnpm install
 ```
 
 ### Cypress Commands
+
 ```bash
 pnpm cypress:open            # Open Cypress Test Runner
 pnpm cypress:run            # Run all tests headless
@@ -19,12 +21,14 @@ pnpm cypress:run:headed     # Run tests with browser visible
 ```
 
 ### Running a Single Test
+
 ```bash
 pnpm cypress:run --spec "cypress/e2e/login.cy.ts"
 pnpm cypress:run --spec "cypress/e2e/**/*.cy.ts" --grep "should login"
 ```
 
 ### Allure Reporting
+
 ```bash
 pnpm test:allure            # Run tests with Allure
 pnpm allure:generate        # Generate report
@@ -32,6 +36,7 @@ pnpm allure:open            # Open report
 ```
 
 ### Linting & Formatting
+
 ```bash
 pnpm lint              # Run ESLint
 pnpm lint:fix         # Fix issues automatically
@@ -41,7 +46,7 @@ pnpm format:check     # Check formatting
 
 ## Project Structure
 
-```
+```bash
 cypress/
 ├── e2e/                    # Test files (*.cy.ts)
 ├── fixtures/               # Test data (data.ts)
@@ -55,11 +60,13 @@ cypress/
 ### Cypress Tests
 
 **Naming Conventions**
+
 - Files: `*.cy.ts`
 - Describe: PascalCase (e.g., `Login`)
 - It: lowercase starting with "should"
 
 **Best Practices**
+
 - Use custom commands in `cypress/support/e2e.ts`
 - Use data-test attributes for selectors
 - Include accessibility checks with `cy.checkA11y()`
